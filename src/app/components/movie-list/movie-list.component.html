@@ -1,0 +1,387 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<!-- <style>
+  .basic-button.primary {
+    font-weight: 700;
+    background-color: #fbc500;
+    color: #000;
+  }
+  .basic-button.lg.rounded {
+    border-radius: 8px;
+}
+
+.call-to-action__discover[data-v-e6756bfe] {
+        margin: 20px 0;
+    }
+    .call-to-action__discover[data-v-e6756bfe] {
+    margin-inline-end: 30px;
+    font-size: 16px;
+    font-weight: 700;
+}
+.basic-button {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.basic-button.lg {
+  font-size: 15px; /* Reduced font size */
+  padding: 0.8rem 2rem; /* Reduced padding */
+}
+.header-bg {
+  background-color: #262626 !important;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensures the body covers the full viewport height */
+}
+
+body {
+    background: url('https://www.justwatch.com/appassets/img/home/global-home-bg-comp.png') no-repeat center center fixed;
+    background-size: cover; /* Ensures the background image scales properly */
+}
+
+</style>
+
+<header class="bg-light py-3 shadow-sm header-bg" style="height: 60px;">
+  <div class="container d-flex justify-content-between align-items-center">
+    <img (click)="clearFilter()" class="mb-4" src="https://www.justwatch.com/appassets/img/logo/JustWatch-logo-small.png" alt="" style="cursor: pointer; width: 150px; height: auto;">
+
+    <button class="btn btn-dark mb-3" style="background-color: #262626  ;" (click)="handleLogout()" style="width: 120px;"><i class="bi bi-box-arrow-right"></i> Logout</button>
+  </div>
+</header>
+
+<div class="container py-5">
+  <div class="input-group">
+    <input *ngIf="isAdmin"
+    type="text"
+    class="form-control"
+      placeholder="Search in OMDB..."
+      [(ngModel)]="searchTitle"
+      (keyup.enter)="searchMovies()"
+      />
+      <input *ngIf="!isAdmin"
+      type="text"
+      class="form-control"
+      placeholder="Search in your db..."
+      [(ngModel)]="searchTitle"
+      (keyup.enter)="searchMovies()"
+      />
+      
+      <button class="btn btn-primary" (click)="searchMovies()"><i class="bi bi-search"></i></button>
+      <button class="btn btn-secondary" (click)="clearFilter()"><i class="bi bi-x-circle"></i></button>
+    </div>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+      <h1 class="fw-bold text-dark">Popular movies</h1>
+
+    <button data-v-e6756bfe="" (click)="navigateToCreate()" type="button" class="basic-button call-to-action__discover primary lg rounded"><div class="basic-button__content"><i class="bi bi-plus-circle-dotted"></i> Create Movie </div></button>
+  </div>
+
+
+  <div *ngIf="movies.length > 0; else noMovies">
+    <div class="row g-4">
+      <div *ngFor="let movie of movies" class="col-md-6 col-lg-4 d-flex">
+        <div class="card shadow-sm border-0 flex-grow-1">
+        <img
+          src="{{movie.Poster}}"
+          class="card-img-top"
+          alt="Interstellar"
+        />
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-primary">{{ movie.Title }} ({{ movie.Year }})</h5>
+            <p class="card-text text-muted flex-grow-1">{{ movie.Plot }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noMovies>
+    <div class="text-center mt-5">
+      <h3 class="text-muted">No movies available.</h3>
+      <p *ngIf="isAdmin" class="text-muted">Start by adding your first movie.</p>
+    </div>
+  </ng-template>
+</div> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* General Styles */
+          html, body {
+              margin: 0;
+              padding: 0;
+              height: 100%; /* Ensures the HTML and BODY elements take up the full viewport height */
+              width: 100%; /* Ensures full width */
+          }
+
+          body {
+              background: url('https://www.justwatch.com/appassets/img/home/global-home-bg-comp.png') no-repeat center center fixed;
+              background-size: cover; /* Ensures the background scales proportionally to cover the entire viewport */
+              font-family: Arial, sans-serif;
+              min-height: 100vh; /* Guarantees the background spans the viewport even with little content */
+          }
+
+        .header-bg {
+            background-color: #262626 !important;
+        }
+
+        .basic-button.primary {
+            font-weight: 700;
+            background-color: #fbc500;
+            color: #000;
+        }
+
+        .basic-button.lg.rounded {
+            border-radius: 8px;
+        }
+
+        .basic-button {
+            background: none;
+            border: none;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .basic-button.lg {
+            font-size: 15px; /* Reduced font size */
+            padding: 0.8rem 2rem; /* Adjusted padding */
+        }
+
+        .call-to-action__discover[data-v-e6756bfe] {
+            margin: 20px 0;
+            margin-inline-end: 30px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        header {
+          position: fixed; /* Ensures header stays at the top while scrolling */
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 60px;
+          background-color: #262626; /* Dark theme for header */
+          z-index: 1000;
+          /* z-index: 1000; Places the header above all content */
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .card-img-top {
+            height: auto;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        /* Center align the "No movies available" message */
+        .text-center h3 {
+            margin: 2rem 0;
+        }
+
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Position the search icon inside the input */
+        .search-button {
+            position: absolute; /* Position the button inside the input */
+            right: 15px; /* Move the button inside the input box */
+            top: 50%;
+            transform: translateY(-50%); /* Vertically center the icon */
+            background-color: transparent; /* Transparent background */
+            border: none; /* Remove border */
+            padding: 5px 10px; /* Adjust padding for the icon */
+            font-size: 20px; /* Icon size */
+            z-index: 100; /* Ensure button appears on top */
+        }
+
+        /* Ensure the input and button share the same width */
+        .input-group {
+            position: relative; /* Needed to position the button inside the input */
+            width: 100%; /* Input takes the full width */
+        }
+
+        /* Optional: Add focus effect or other styling */
+        .search-input:focus {
+            box-shadow: none; /* Remove focus shadow for cleaner look */
+        }
+
+          /* Input background color, text color, and placeholder color */
+        .search-input {
+            background-color: #262626; /* Dark background */
+            color: #b0b0b0; /* White text */
+            /* border-radius: 25px;  */
+            padding-right: 45px; /* Ensure space for the search icon inside the input */
+        }
+
+        /* Style the placeholder text */
+        .search-input::placeholder {
+            color: #b0b0b0; /* Lighter color for placeholder */
+        }
+
+        .movie-rating {
+          display: flex;
+          align-items: center;
+        }
+
+        .star {
+          font-size: 20px;
+          color: #f39c12; /* Yellow color for filled stars */
+          margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-light py-3 shadow-sm header-bg">
+        <div class="container d-flex justify-content-between align-items-center">
+            <img 
+                (click)="clearFilter()" 
+                src="https://www.justwatch.com/appassets/img/logo/JustWatch-logo-small.png" 
+                alt="JustWatch Logo" 
+                style="cursor: pointer; width: 150px; height: auto;"
+            >
+            <button class="btn btn-dark" (click)="handleLogout()" style="background-color: #262626;">
+              <i class="bi bi-box-arrow-right"></i>&nbsp;Logout
+            </button>
+        </div>
+    </header>
+
+    <div class="container py-5">
+      <!-- Search Bar -->
+      <div class="input-group mt-3">
+        <input 
+          *ngIf="isAdmin"
+          type="text"
+          class="form-control search-input"
+          placeholder="Search in OMDB..."
+          [(ngModel)]="searchTitle"
+          (keyup.enter)="searchMovies()"
+          style="background-color: #262626; color: #fff;"
+      />
+        <input 
+            *ngIf="!isAdmin"
+            type="text"
+            class="form-control search-input"
+            placeholder="Search in your db..."
+            [(ngModel)]="searchTitle"
+            (keyup.enter)="searchMovies()"
+            style="background-color: #262626;"
+        />
+        <button class="btn btn-primary search-button" (click)="searchMovies()">
+            <i class="bi bi-search"></i>
+        </button>
+        <!-- Optional clear button if needed -->
+        <!-- <button class="btn btn-secondary" (click)="clearFilter()">
+            <i class="bi bi-x-circle"></i>
+        </button> -->
+      </div>
+
+
+        
+
+        <!-- Popular Movies Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+            <h1 class="fw-bold text-white">Popular Movies</h1>
+            <button  
+                data-v-e6756bfe="" 
+                (click)="navigateToCreate()" 
+                type="button" 
+                *ngIf="isAdmin"
+                class="basic-button call-to-action__discover primary lg rounded"
+            >
+                <div *ngIf="isAdmin" class="basic-button__content">
+                    <i class="bi bi-plus-circle-dotted"></i> Create Movie
+                </div>
+            </button>
+        </div>
+
+        <!-- Movies Grid -->
+        <div *ngIf="movies.length > 0; else noMovies">
+            <div class="row g-4">
+                <div *ngFor="let movie of movies" class="col-md-6 col-lg-4 d-flex">
+                    <div class="card shadow-sm border-0 flex-grow-1">
+                        <img 
+                            [src]="movie.Poster" 
+                            class="card-img-top" 
+                            alt="{{ movie.Title }}"
+                        />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-primary">
+                                {{ movie.Title }} ({{ movie.Year }})
+                            </h5>
+                            <p class="card-text text-muted flex-grow-1">
+                                {{ movie.Plot }}
+                            </p>
+                            <h6 class="mb-3">{{ getRoundedRate(movie.movie_rate) }}/5 <span style="color: #808080; font-weight: 500;">IMDb</span></h6>
+                            <div class="movie-rating">
+
+                              <div>
+                                <!-- Display stars based on the rating -->
+                                <span *ngFor="let star of getStars(movie.movie_rate)" class="star">
+                                  <i class="bi"
+                                    [ngClass]="{
+                                      'bi-star-fill': star === 1, 
+                                      'bi-star-half': star === 0.5, 
+                                      'bi-star': star === 0
+                                    }">
+                                  </i>
+                                </span>
+                              </div>
+                              
+                              <!-- Display the numeric rating (e.g., 4.8/5) -->
+                              <span class="rating-number">{{ getRoundedRate(movie.movie_rate) }}/5</span>
+                            </div>                                                  
+                            <!-- Rating input (specific to this movie) -->
+                            <div style="display: flex; justify-content: space-between;" *ngIf="!isAdmin">
+                              <input style="width: -webkit-fill-available; margin-right: 5px;" type="number" [(ngModel)]="userRatings[movie.movieId]" min="0" max="5" step="0.5" placeholder="Add Your Rate"/>
+                              <button class="btn btn-primary small" (click)="submitRating(movie.movieId)">Submit</button>
+                            </div>
+                            <button *ngIf="isAdmin && canDelete" class="btn btn-danger" (click)="onRemoveMovie(movie.movieId)"><i class="bi bi-trash"></i> &nbsp; Remove Movie</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Movies Fallback -->
+        <ng-template #noMovies>
+            <div class="text-center mt-5">
+                <h3 class="text-white">No movies available.</h3>
+                <p *ngIf="isAdmin" class="text-white">Start by adding your first movie.</p>
+            </div>
+        </ng-template>
+    </div>
+</body>
+</html>

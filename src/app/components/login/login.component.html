@@ -1,0 +1,57 @@
+<!-- <form (ngSubmit)="handleLogin()" [formGroup]="loginForm">
+    <div class="form-item">
+        <label for="username">Username</label>
+        <input formControlName="username" type="text" id="username">
+    </div>
+    <div class="form-item">
+        <label for="password">Password</label>
+        <input formControlName="password" type="password" id="password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</form> -->
+
+<div
+  class="d-flex justify-content-center align-items-center vh-100 text-white flex-column"
+  style="background-image: url('https://www.justwatch.com/appassets/img/home/global-home-bg-comp.png'); background-size: cover; background-position: center; position: relative;"
+>
+  <!-- Overlay -->
+  <div
+    class="position-absolute top-0 start-0 w-100 h-100"
+    style="background-color: rgba(0, 0, 0, 0.7);"
+  ></div>
+
+  <!-- Form -->
+  <form (ngSubmit)="handleLogin()" [formGroup]="loginForm" class=" bg-white text-black p-4 rounded shadow d-flex flex-column gap-4  position-relative" style="z-index: 1; width: 450px">
+    <h2 class="text-center">Login</h2>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        required
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="Enter your username"
+        formControlName="username"
+      />
+      <div>
+        <span class="text-danger" *ngIf="loginForm.get('username')?.getError('required') && loginForm.get('username')?.touched">Username is required</span>
+    </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Enter your password"
+        formControlName="password"
+      />
+      <div>
+        <span class="text-danger" *ngIf="loginForm.get('password')?.getError('required') && loginForm.get('password')?.touched">Password is required</span>
+        <span class="text-danger" *ngIf="!loginForm.get('password')?.getError('required') && errorMessage">{{errorMessage}}</span>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+  </form>
+</div>

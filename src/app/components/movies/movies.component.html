@@ -1,0 +1,71 @@
+<!-- <form (ngSubmit)="handleMovie()" [formGroup]="movieForm">
+    <div class="form-item">
+        <label for="Title">Title</label>
+        <input formControlName="Title" type="text" id="Title">
+    </div>
+    <div class="form-item">
+        <label for="Year">Year</label>
+        <input formControlName="Year" type="text" id="Year">
+    </div>
+    <div class="form-item">
+        <label for="Plot">Plot</label>
+        <input formControlName="Plot" type="text" id="Plot">
+    </div>
+    <div class="form-item">
+        <label for="Poster">Poster</label>
+        <input formControlName="Poster" type="text" id="Poster">
+    </div>
+
+    <button type="submit">Create</button>
+</form> -->
+
+<div
+  class="d-flex justify-content-center align-items-center vh-100 text-white flex-column"
+  style="background-image: url('https://www.justwatch.com/appassets/img/home/global-home-bg-comp.png'); background-size: cover; background-position: center; position: relative;"
+>
+  <!-- Overlay -->
+  <div
+    class="position-absolute top-0 start-0 w-100 h-100"
+    style="background-color: rgba(0, 0, 0, 0.7);"
+  ></div>
+  <!-- Form -->
+  <form
+    (ngSubmit)="handleMovie()"
+    [formGroup]="movieForm"
+    class="bg-white text-black p-4 rounded shadow d-flex flex-column gap-3 position-relative"
+    style="z-index: 1; width: 450px;"
+  >
+    <h2 class="text-center">Create Movie</h2>
+    <div class="form-item mb-3">
+      <label for="Title" class="form-label">Title</label>
+      <input formControlName="Title" type="text" id="Title" class="form-control" placeholder="Enter title" />
+      <div>
+        
+        <span class="text-danger" *ngIf="movieForm.get('Title')?.getError('required') && movieForm.get('Title')?.touched">Title is required</span>
+    </div>
+    </div>
+    <div class="form-item mb-3">
+      <label for="Year" class="form-label">Year</label>
+      <input formControlName="Year" type="text" id="Year" class="form-control" placeholder="Enter year" />
+      <div>
+        <span class="text-danger" *ngIf="movieForm.get('Year')?.getError('required') && movieForm.get('Year')?.touched">Year is required</span>
+    </div>
+    </div>
+    <div class="form-item mb-3">
+      <label for="Plot" class="form-label">Plot</label>
+      <input formControlName="Plot" type="text" id="Plot" class="form-control" placeholder="Enter plot" />
+      <div>
+        <span class="text-danger" *ngIf="movieForm.get('Plot')?.getError('required') && movieForm.get('Plot')?.touched">Plot is required</span>
+    </div>
+    </div>
+    <div class="form-item mb-3">
+      <label for="Poster" class="form-label">Poster URl</label>
+      <input formControlName="Poster" required type="text" id="Poster" class="form-control" placeholder="Enter poster" />
+      <div>
+        <span class="text-danger" *ngIf="movieForm.get('Poster')?.getError('required') && movieForm.get('Poster')?.touched">Poster is required</span>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Create</button>
+    <!-- <button type="submit" (click)="navigateToList()" class="btn btn-primary w-100">Create</button> -->
+  </form>
+</div>
