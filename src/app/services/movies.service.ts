@@ -11,13 +11,14 @@ export class MoviesService {
 
    userData:any
     constructor(private _httpClient:HttpClient, private _userService:AuthService) {
-      this.userData = _userService.getUser();
+      // this.userData = _userService.getUser();
+      this.userData = _userService.getUserFormData();
       console.log(this.userData.username + '' + this.userData.password);
     }
 
     
     private createHeaders(): HttpHeaders {
-      this.userData = this._userService.getUser();
+      this.userData = this._userService.getUserFormData();
       const auth = btoa(`${this.userData.username}:${this.userData.password}`);
       console.log(`In Header: Username: ${this.userData.username}, Password: ${this.userData.password}`)
       this.header = new HttpHeaders({

@@ -37,6 +37,7 @@ export class MoviesComponent {
 
           error:(err) => {
             this.errorMessage = err.error.Message;
+            this.errorMessage = "UnExpected Error!!";
             console.log(err);
           }
         }

@@ -21,6 +21,11 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
+  getUserFormData(): any {
+    const user = localStorage.getItem('formData');
+    return user ? JSON.parse(user) : null;
+  }
+
   isAdmin(): boolean {
     const user = this.getUser();
     return user && user.role === 'admin';
@@ -28,5 +33,6 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('user');
+    localStorage.removeItem('formData');
   }
 }

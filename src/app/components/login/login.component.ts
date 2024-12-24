@@ -23,32 +23,13 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   })
 
-
-  handleLogin2():void{
-    if(this.loginForm.valid) {
-      this._authService.loginForm(this.loginForm.value).subscribe(
-        {
-          next:(response) => {
-            console.log(response)
-          },
-
-          error:(err) => {
-            this.errorMessage = err.error.Message;
-            console.log(err);
-          }
-        }
-      )
-    }
-
-    console.log(this.loginForm.value);
-  }
-
   handleLogin(): void {
     if (this.loginForm.valid) {
       this._authService.loginForm(this.loginForm.value).subscribe({
         next: (response) => {
           console.log(response);  
             localStorage.setItem('user', JSON.stringify(response));
+            localStorage.setItem('formData', JSON.stringify(this.loginForm.value));
             this._router.navigate(['/movies']);
         },
         error: (err) => {

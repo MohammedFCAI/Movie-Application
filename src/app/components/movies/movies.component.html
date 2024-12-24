@@ -65,6 +65,7 @@
         <span class="text-danger" *ngIf="movieForm.get('Poster')?.getError('required') && movieForm.get('Poster')?.touched">Poster is required</span>
     </div>
     </div>
+    <span class="text-danger">{{errorMessage}}</span>
     <button type="submit" class="btn btn-primary w-100">Create</button>
     <!-- <button type="submit" (click)="navigateToList()" class="btn btn-primary w-100">Create</button> -->
   </form>

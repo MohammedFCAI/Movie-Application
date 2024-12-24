@@ -3,6 +3,7 @@ import { MoviesService } from '../../services/movies.service';
 import { Router } from '@angular/router';
 import { NgModel } from '@angular/forms';
 import { error } from 'node:console';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -13,7 +14,7 @@ import { error } from 'node:console';
 })
 export class MovieListComponent implements OnInit{
 
-  constructor(private _movieService:MoviesService, private _router:Router) {
+  constructor(private _movieService:MoviesService, private _router:Router, private _authService: AuthService) {
 
   }
 
@@ -27,6 +28,7 @@ export class MovieListComponent implements OnInit{
     }
     this._movieService.getAllMovies().subscribe({
       next:(response) => {
+        console.log("Response::::");
         console.log(response);
         this.movies = response;
       }
@@ -58,17 +60,20 @@ export class MovieListComponent implements OnInit{
     }
 
     if(this.isAdmin) {
+      if(this.searchTitle != '') {
 
-      this._movieService.getAllFromOMDB(this.searchTitle).subscribe({
-        next: (response) => {
-          this.movies = response; // Update the movie list with search results
-          console.log(response);
-          this.canDelete = false;
-        },
-        error: (err) => {
-          console.error('Search failed:', err);
-        }
-      });
+          this._movieService.getAllFromOMDB(this.searchTitle).subscribe({
+            next: (response) => {
+              this.movies = response; // Update the movie list with search results
+              
+              console.log(response);
+              this.canDelete = false;
+            },
+            error: (err) => {
+              console.error('Search failed:', err);
+            }
+          });
+      }
     }
     else{
       this._movieService.getAllForUser(this.searchTitle).subscribe({
@@ -89,8 +94,9 @@ export class MovieListComponent implements OnInit{
 
 
   handleLogout(): void {
+    this._authService.logout();
     // Clear stored user data (e.g., token) from localStorage or sessionStorage
-    localStorage.removeItem('user'); 
+    // localStorage.removeItem('user'); 
     this._router.navigate(['/login']); // Redirect to login page
   }
 
@@ -121,9 +127,9 @@ getRoundedRate(rate: number): number {
 
 // Function to return an array of 1 (filled star), 0.5 (half star), or 0 (empty star)
 getStars(rate: number): number[] {
-  const roundedRate = this.getRoundedRate(rate);  // Get the rounded rate
-  const fullStars = Math.floor(roundedRate);      // Whole stars
-  const hasHalfStar = roundedRate % 1 >= 0.5;     // Check for half star
+ // Get the rounded rate
+  const fullStars = Math.floor(rate);      // Whole stars
+  const hasHalfStar = rate % 1 >= 0.5;     // Check for half star
   const stars = new Array(5).fill(0);             // Create an array of 5 stars
 
   // Fill full stars
